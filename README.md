@@ -1,1 +1,3 @@
-# mouse_dopaminergic_single_cell_rnaseq
+# mouse dopaminergic single-cell RNA-Seq  
+
+This is the single-cell analysis of Th+ dopaminergic cells  
