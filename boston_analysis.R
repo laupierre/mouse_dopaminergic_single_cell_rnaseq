@@ -39,7 +39,7 @@ plot1 <- VariableFeaturePlot(neurons)
 plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot2
 
-# Scaling the data on the 2000 highly variable features
+# Scaling the data of the highly variable features
 neurons <- ScaleData (neurons)
 
 # perform PCA on the scaled data
