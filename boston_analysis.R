@@ -49,7 +49,45 @@ ElbowPlot(neurons)
 
 # Cluster the cells
 neurons <- FindNeighbors(neurons, dims = 1:10)
-neurons <- FindClusters(neurons, resolution = 0.5)
+neurons <- FindClusters(neurons)
+
+# See the clusters (four clusters are made)
+head(Idents(neurons), 5)
+
+# Visualize in UMAP plot
+neurons <- RunUMAP(neurons, dims = 1:10)
+DimPlot(neurons, reduction = "umap", label=TRUE)
+
+# See expression of genes
+FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip"))
+
+
+# Based on Th+, Slc6a3- and Vip-, to perform differential expression on cells grouped by the expression of these genes
+# first create a new set of cell identities based on the expression of the gene/s.
+
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 < 1 & Vip < 1, slot = 'data')) <- 'DN'
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1, slot = 'data')) <- 'SP1'
+Idents(neurons, WhichCells(object = neurons, expression = Vip > 1, slot = 'data')) <- 'SP1'
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1 & Vip > 1, slot = 'data')) <- 'DP'
+
+table (Idents (neurons))
+# DP SP1  DN 
+#124 188  77 
+
+
+## Finding differentially expressed features
+# genes <- FindMarkers(neurons, ident.1 = 'DN', ident.2 = 'DP')
+
+# Find markers for the DN group
+# the fold change column will be named according to the logarithm base (eg, "avg_log2FC"), or if using the scale.data slot "avg_diff"
+all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, min.pct= 0.75, return.thresh = 0.05)
+
+all.markers <- all.markers[all.markers$cluster == "DN", ]
+head (all.markers)
+
+# See expression of genes
+FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2])
+
 
 
 
