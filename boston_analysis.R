@@ -65,17 +65,22 @@ FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip"))
 
 
 # Based on Th+, Slc6a3- and Vip-, to perform differential expression on cells grouped by the expression of these genes
-# first create a new set of cell identities based on the expression of the gene/s.
+# first create a new set of cell identities based on the expression of the gene/s
 
-Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 < 1 & Vip < 1, slot = 'data')) <- 'DN'
-Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1, slot = 'data')) <- 'SP1'
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 < 0.5 & Vip < 1, slot = 'data')) <- 'DN'
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 0.5, slot = 'data')) <- 'SP1'
 Idents(neurons, WhichCells(object = neurons, expression = Vip > 1, slot = 'data')) <- 'SP2'
-Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1 & Vip > 1, slot = 'data')) <- 'DP'
+Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 0.5 & Vip > 1, slot = 'data')) <- 'DP'
+
+# verify the expression level
+FeatureScatter(object = neurons, feature1 = "Slc6a3", feature2 = "Vip")
+
 
 table (Idents (neurons))
 # DP SP1  DN 
 #124 188  77 
 
+neurons@meta.data$mygroup <- Idents(neurons) 
 
 ## Finding differentially expressed features
 # genes <- FindMarkers(neurons, ident.1 = 'DN', ident.2 = 'DP')
@@ -90,7 +95,9 @@ all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 
 # See expression of genes
+FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE)
 FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2]))
+
 
 # See expression of genes (in batch mode)
 FeaturePlot(neurons, features = c(row.names (all.markers)[i], row.names (all.markers)[i+1], row.names (all.markers)[i+2],row.names (all.markers)[i+3]))
