@@ -84,10 +84,13 @@ table (Idents (neurons))
 # DP SP2 SP1  DN 
 #144 111  64  70 
 
+# DP SP2 SP1  DN 
+#144 108  58  50 
+
 neurons@meta.data$mygroup <- Idents(neurons) 
 
 # See the new identity
-DimPlot(neurons, reduction = "umap", label=TRUE)
+DimPlot(neurons, reduction = "umap")
 
 
 
@@ -105,8 +108,8 @@ head (all.markers1)
 all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 table (all.markers$p_val_adj < 0.05)
-# FALSE  TRUE 
-#  491    14
+#FALSE  TRUE 
+#  419     9 
 
 res <- all.markers
 
@@ -132,6 +135,7 @@ write.xlsx (res, "dopaminergic marker DAT and Vip double negative cells.xlsx", r
 # See expression of canonical genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6, blend.threshold = 0.5)
 
+
 # See expression of top 50 genes
 library (ggpubr)
 
@@ -144,16 +148,16 @@ ggplot2::ggsave (paste (all.markers$gene[i], "dopaminergic_screen.pdf", sep="_")
 }
 
 
-# Heatmap
+# Heatmap of top 30 genes in each group
 library (dplyr)
 
 all.markers1 %>%
     group_by(cluster) %>%
-    top_n(n = 30, wt = avg_log2FC) -> top10
+    top_n(n = 30, wt = avg_log2FC) -> top30
 
-DoHeatmap(neurons, features = top10$gene)
+DoHeatmap(neurons, features = top30$gene)
 
-
+## Warning! : following features were omitted as they were not found in the scale.data slot for the RNA assay
 
 
 
