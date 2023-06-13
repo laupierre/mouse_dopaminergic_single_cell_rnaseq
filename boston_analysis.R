@@ -75,10 +75,9 @@ Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 0.5 & Vip > 1
 # verify the expression level
 FeatureScatter(object = neurons, feature1 = "Slc6a3", feature2 = "Vip")
 
-
 table (Idents (neurons))
-# DP SP1  DN 
-#124 188  77 
+# DP SP2 SP1  DN 
+#144 111  64  70 
 
 neurons@meta.data$mygroup <- Idents(neurons) 
 
@@ -90,18 +89,21 @@ neurons@meta.data$mygroup <- Idents(neurons)
 all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, return.thresh = 0.05)
 head (all.markers)
 
+
 # Markers for DN population
 all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 
 # See expression of genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE)
-FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2]))
 
+p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE)
+p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE)
 
-# See expression of genes (in batch mode)
-FeaturePlot(neurons, features = c(row.names (all.markers)[i], row.names (all.markers)[i+1], row.names (all.markers)[i+2],row.names (all.markers)[i+3]))
+library (ggpubr)
 
+p3 <- ggarrange (p1, p2, nrow=2)
+ggplot2::ggsave (paste (all.markers$gene[i], "dopaminergic_screen.pdf", sep="_"), p3, height=8, width=10)
 
 
 
