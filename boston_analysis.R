@@ -119,8 +119,9 @@ library (openxlsx)
 write.xlsx (res, "dopaminergic marker DAT and Vip double negative cells.xlsx", rowNames=F)
 
 
-# See expression of genes
+# See expression of canonical genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
+
 
 # See expression of top 50 genes
 library (ggpubr)
@@ -139,7 +140,7 @@ library (dplyr)
 
 all.markers1 %>%
     group_by(cluster) %>%
-    top_n(n = 10, wt = avg_log2FC) -> top10
+    top_n(n = 30, wt = avg_log2FC) -> top10
 
 DoHeatmap(neurons, features = top10$gene)
 
