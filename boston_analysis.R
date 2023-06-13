@@ -157,7 +157,7 @@ all.markers1 %>%
 
 DoHeatmap(neurons, features = top30$gene)
 
-## Warning! : following features were omitted as they were not found in the scale.data slot for the RNA assay
+## Warning: following features were omitted as they were not found in the scale.data slot for the RNA assay
 
 
 
