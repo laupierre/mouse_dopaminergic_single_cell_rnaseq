@@ -87,7 +87,8 @@ neurons@meta.data$mygroup <- Idents(neurons)
 # Find markers for the DN group
 # the fold change column will be named according to the logarithm base (eg, "avg_log2FC"), or if using the scale.data slot "avg_diff"
 all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, return.thresh = 0.05)
-head (all.markers)
+all.markers1 <- all.markers
+head (all.markers1)
 
 
 # Markers for DN population
@@ -131,6 +132,16 @@ p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE,
 p3 <- ggarrange (p1, p2, nrow=2)
 ggplot2::ggsave (paste (all.markers$gene[i], "dopaminergic_screen.pdf", sep="_"), p3, height=8, width=10)
 }
+
+
+# Heatmap
+library (dplyr)
+
+all.markers1 %>%
+    group_by(cluster) %>%
+    top_n(n = 10, wt = avg_log2FC) -> top10
+
+DoHeatmap(neurons, features = top10$gene)
 
 
 
