@@ -95,10 +95,10 @@ all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 
 # See expression of genes
-FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE)
+FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
 
-p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE)
-p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE)
+p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
+p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
 
 library (ggpubr)
 
