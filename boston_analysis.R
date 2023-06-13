@@ -59,7 +59,9 @@ neurons <- RunUMAP(neurons, dims = 1:10)
 DimPlot(neurons, reduction = "umap", label=TRUE)
 
 # See expression of genes
+# FeaturePlot will display the normalized data (from the @data slot)
 FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip"))
+
 
 
 # Based on Th+, Slc6a3- and Vip-, to perform differential expression on cells grouped by the expression of these genes
@@ -67,7 +69,7 @@ FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip"))
 
 Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 < 1 & Vip < 1, slot = 'data')) <- 'DN'
 Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1, slot = 'data')) <- 'SP1'
-Idents(neurons, WhichCells(object = neurons, expression = Vip > 1, slot = 'data')) <- 'SP1'
+Idents(neurons, WhichCells(object = neurons, expression = Vip > 1, slot = 'data')) <- 'SP2'
 Idents(neurons, WhichCells(object = neurons, expression = Slc6a3 > 1 & Vip > 1, slot = 'data')) <- 'DP'
 
 table (Idents (neurons))
@@ -80,13 +82,19 @@ table (Idents (neurons))
 
 # Find markers for the DN group
 # the fold change column will be named according to the logarithm base (eg, "avg_log2FC"), or if using the scale.data slot "avg_diff"
-all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, min.pct= 0.75, return.thresh = 0.05)
+all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, return.thresh = 0.05)
+head (all.markers)
 
+# Markers for DN population
 all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 
 # See expression of genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2]))
+
+# See expression of genes (in batch mode)
+FeaturePlot(neurons, features = c(row.names (all.markers)[i], row.names (all.markers)[i+1], row.names (all.markers)[i+2],row.names (all.markers)[i+3]))
+
 
 
 
