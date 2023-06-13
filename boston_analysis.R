@@ -93,18 +93,24 @@ head (all.markers)
 # Markers for DN population
 all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
+table (all.markers$p_val_adj < 0.05)
+# FALSE  TRUE 
+#  491    14
+
 
 # See expression of genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
 
-p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
-p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
-
+# See expression of top 30 genes
 library (ggpubr)
 
+for (i in (1:30)) {
+print (i)
+p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
+p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
 p3 <- ggarrange (p1, p2, nrow=2)
 ggplot2::ggsave (paste (all.markers$gene[i], "dopaminergic_screen.pdf", sep="_"), p3, height=8, width=10)
-
+}
 
 
 
