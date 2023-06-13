@@ -86,7 +86,7 @@ all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 
 # See expression of genes
-FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2])
+FeaturePlot(neurons, features = c("Slc6a3", "Vip", row.names (all.markers)[1],row.names (all.markers)[2]))
 
 
 
