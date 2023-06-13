@@ -82,9 +82,6 @@ FeatureScatter(object = neurons, feature1 = "Slc6a3", feature2 = "Vip")
 
 table (Idents (neurons))
 # DP SP2 SP1  DN 
-#144 111  64  70 
-
-# DP SP2 SP1  DN 
 #144 108  58  50 
 
 neurons@meta.data$mygroup <- Idents(neurons) 
