@@ -19,6 +19,11 @@ length (WhichCells(neurons, idents = "Dopaminergic Neurons"))
 neurons <-  subset(neurons, subset = Th > 1 & percent.mito < 10)
 # 389
 
+neurons <-  subset(neurons, cells = WhichCells(neurons, idents = "Dopaminergic Neurons"))
+
+table (neurons@meta.data$Curated_cellTypeLabels)
+# Dopaminergic Neurons 
+#                  360 
 
 # Normalize the data
 neurons <- NormalizeData(neurons, normalization.method = "LogNormalize", scale.factor = 10000)
