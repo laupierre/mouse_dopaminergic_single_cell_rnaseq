@@ -56,7 +56,7 @@ head(Idents(neurons), 5)
 
 # Visualize in UMAP plot
 neurons <- RunUMAP(neurons, dims = 1:10)
-DimPlot(neurons, reduction = "umap", label=TRUE)
+DimPlot(neurons, reduction = "umap")
 
 # See expression of genes
 # FeaturePlot will display the normalized data (from the @data slot)
@@ -80,6 +80,11 @@ table (Idents (neurons))
 #144 111  64  70 
 
 neurons@meta.data$mygroup <- Idents(neurons) 
+
+# See the new identity
+DimPlot(neurons, reduction = "umap", label=TRUE)
+
+
 
 ## Finding differentially expressed features
 # genes <- FindMarkers(neurons, ident.1 = 'DN', ident.2 = 'DP')
@@ -120,8 +125,7 @@ write.xlsx (res, "dopaminergic marker DAT and Vip double negative cells.xlsx", r
 
 
 # See expression of canonical genes
-FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
-
+FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6, blend.threshold = 0.5)
 
 # See expression of top 50 genes
 library (ggpubr)
