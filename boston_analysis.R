@@ -65,8 +65,7 @@ DimPlot(neurons, reduction = "umap")
 
 # See expression of genes
 # FeaturePlot will display the normalized data (from the @data slot)
-FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip"))
-
+FeaturePlot(neurons, features = c("Th", "Slc6a3", "Vip", "Snca"))
 
 
 # Based on Th+, Slc6a3- and Vip-, to perform differential expression on cells grouped by the expression of these genes
@@ -106,7 +105,7 @@ all.markers <- all.markers[all.markers$cluster == "DN", ]
 head (all.markers)
 table (all.markers$p_val_adj < 0.05)
 #FALSE  TRUE 
-#  419     9 
+#   89     6 
 
 res <- all.markers
 
