@@ -97,6 +97,26 @@ table (all.markers$p_val_adj < 0.05)
 # FALSE  TRUE 
 #  491    14
 
+res <- all.markers
+
+# Annotation
+library (org.Mm.eg.db)
+
+#columns(org.Mm.eg.db)
+
+symbols <- res$gene
+res2 <- mapIds(org.Mm.eg.db, symbols, 'GENENAME', 'SYMBOL')
+
+idx <- match (res$gene, names (res2))
+res$Description <- as.vector (res2) [idx]
+res <- res[order (res$p_val_adj), ]
+res <- na.omit (res)
+head (res)
+
+library (openxlsx)
+
+write.xlsx (res, "dopaminergic marker DAT and Vip double negative cells.xlsx", rowNames=F)
+
 
 # See expression of genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
