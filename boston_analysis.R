@@ -96,7 +96,7 @@ DimPlot(neurons, reduction = "umap")
 
 # Find markers for the DN group
 # the fold change column will be named according to the logarithm base (eg, "avg_log2FC"), or if using the scale.data slot "avg_diff"
-all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, return.thresh = 0.05)
+all.markers <- FindAllMarkers(object = neurons, only.pos =TRUE, return.thresh = 0.05, logfc.threshold = 0.25, min.pct = 0.25)
 all.markers1 <- all.markers
 head (all.markers1)
 
