@@ -28,8 +28,8 @@ table (neurons@meta.data$Curated_cellTypeLabels)
 # Normalize the data
 neurons <- NormalizeData(neurons, normalization.method = "LogNormalize", scale.factor = 10000)
 
-# Identification of 2000 highly variable features 
-neurons <- FindVariableFeatures(neurons, selection.method = "vst", nfeatures = 2000)
+# Identification of 5000 highly variable features 
+neurons <- FindVariableFeatures(neurons, selection.method = "vst", nfeatures = 5000)
 
 # Get the 10 most highly variable genes
 top10 <- head(VariableFeatures(neurons), 10)
@@ -39,7 +39,7 @@ plot1 <- VariableFeaturePlot(neurons)
 plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot2
 
-# Scaling the data on the 2000 higlhy variable features
+# Scaling the data on the 2000 highly variable features
 neurons <- ScaleData (neurons)
 
 # perform PCA on the scaled data
@@ -150,9 +150,9 @@ library (dplyr)
 
 all.markers1 %>%
     group_by(cluster) %>%
-    top_n(n = 30, wt = avg_log2FC) -> top30
+    top_n(n = 20, wt = avg_log2FC) -> top20
 
-DoHeatmap(neurons, features = top30$gene)
+DoHeatmap(neurons, features = top20$gene, slot= "scale.data")
 
 ## Warning: following features were omitted as they were not found in the scale.data slot for the RNA assay
 
