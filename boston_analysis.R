@@ -121,10 +121,10 @@ write.xlsx (res, "dopaminergic marker DAT and Vip double negative cells.xlsx", r
 # See expression of genes
 FeaturePlot(neurons, features = c("Slc6a3", "Vip"), blend=TRUE, pt.size = 0.6)
 
-# See expression of top 30 genes
+# See expression of top 50 genes
 library (ggpubr)
 
-for (i in (1:30)) {
+for (i in (1:50)) {
 print (i)
 p1 <- FeaturePlot(neurons, features = c("Slc6a3", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
 p2 <- FeaturePlot(neurons, features = c("Vip", all.markers$gene[i]), blend=TRUE, pt.size = 0.6)
